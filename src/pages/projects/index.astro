@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import ProjectFilter from '../../components/ProjectFilter.vue';
+import { PROJECTS, presentRoles } from '../../data/projects';
+
+const roles = presentRoles().map(({ role, meta }) => ({
+  role,
+  label: meta.label,
+  description: meta.description,
+  token: meta.token,
+}));
+
+const items = PROJECTS.map((p) => ({
+  id: p.id,
+  name: p.name,
+  title: p.title,
+  tagline: p.tagline,
+  description: p.description,
+  role: p.role,
+  github: p.github,
+  rubygems: p.rubygems,
+  status: p.status,
+  language: p.language,
+}));
+---
+
+<BaseLayout
+  title="Projects — eikogram"
+  description="The eikogram stack: models, transformers, lenses, rasterization, and the Rust engines — one role per gem."
+>
+  <section class="container">
+    <header class="page-head">
+      <p class="eyebrow">Projects</p>
+      <h1>One role per gem</h1>
+      <p class="lede">
+        Every library plays exactly one role in the model flow: models make
+        formats programmable, transformers convert between models, lenses
+        validate against the standards, rasterization draws the pixels, and
+        the engines carry it all natively.
+      </p>
+    </header>
+
+    <div class="projects-filterable" data-projects={JSON.stringify(items)} data-roles={JSON.stringify(roles)}>
+      <ProjectFilter client:load roles={roles} />
+      <noscript>
+        <ProjectGrid projects={PROJECTS} />
+      </noscript>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .page-head {
+    text-align: center;
+    margin: 4rem 0 0;
+  }
+  .page-head h1 {
+    margin: 0.6rem 0;
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    letter-spacing: -0.02em;
+  }
+  .lede {
+    color: var(--color-ink-muted);
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 1.02rem;
+    line-height: 1.55;
+  }
+</style>

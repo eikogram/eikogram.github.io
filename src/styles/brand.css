@@ -1,0 +1,122 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@theme {
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  /* eikogram: ink on plotting paper. The hub token is the pen; the spokes
+     carry the per-format colors used by the model-flow diagram. */
+  --color-ink-brand: #4340c8;
+  --color-ink-brand-deep: #2e2c96;
+
+  --color-fmt-emf: #3d7fd9;
+  --color-fmt-svg: #7a5cd6;
+  --color-fmt-png: #d9962b;
+  --color-fmt-raster: #2f9e6e;
+
+  --color-canvas: #fbfbfd;
+  --color-canvas-soft: #f3f3f9;
+  --color-ink: #17171f;
+  --color-ink-muted: #62626e;
+  --color-line: #e4e4ee;
+
+  --shadow-card: 0 1px 3px rgba(23, 23, 31, 0.05), 0 4px 12px rgba(23, 23, 31, 0.05);
+  --shadow-card-hover: 0 2px 6px rgba(23, 23, 31, 0.08), 0 8px 24px rgba(23, 23, 31, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: #0e0e15;
+    --color-canvas-soft: #17171f;
+    --color-ink: #ededf4;
+    --color-ink-muted: #9c9cab;
+    --color-line: #272736;
+
+    --color-ink-brand: #8683f0;
+    --color-ink-brand-deep: #a5a3f5;
+
+    --color-fmt-emf: #6ea3ec;
+    --color-fmt-svg: #a58ae8;
+    --color-fmt-png: #e8b055;
+    --color-fmt-raster: #5cbf8e;
+
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-card-hover: 0 2px 6px rgba(0, 0, 0, 0.45), 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+}
+
+html {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ink-brand);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-ink-brand) 22%, transparent);
+}
+
+/* Drawing-paper dot grid, used behind the hero and the model flow. */
+.dotgrid {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--color-ink) 9%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-ink-brand);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--color-ink);
+  color: var(--color-canvas);
+  border-radius: 0 0 6px 0;
+}
+.skip-link:focus {
+  left: 0;
+}

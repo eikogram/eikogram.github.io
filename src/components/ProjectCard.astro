@@ -1,0 +1,144 @@
+---
+import type { Project } from '../data/projects';
+import { ROLE_META } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const meta = ROLE_META[project.role];
+---
+
+<article class:list={['project-card', `token-${meta.token}`]}>
+  <div class:list={['card-stripe', `stripe-${meta.token}`]} aria-hidden="true"></div>
+  <div class="card-body">
+    <header class="card-header">
+      <h3 class="card-title">{project.title}</h3>
+      <span class:list={['status-badge', { 'status-in-build': project.status === 'in-build' }]}>
+        {project.status === 'released' ? 'released' : 'in build'}
+      </span>
+    </header>
+    <p class="card-tagline">{project.tagline}</p>
+    <p class="card-description">{project.description}</p>
+    <div class="card-meta">
+      <span class="lang-badge">{project.language}</span>
+    </div>
+    <div class="card-links">
+      <a href={project.github} target="_blank" rel="noopener" class="link-primary">GitHub</a>
+      {project.rubygems && (
+        <a href={project.rubygems} target="_blank" rel="noopener" class="link-secondary">RubyGems</a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    position: relative;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  .card-stripe {
+    height: 4px;
+    width: 100%;
+  }
+  .stripe-blue   { background: var(--color-fmt-emf); }
+  .stripe-violet { background: var(--color-fmt-svg); }
+  .stripe-amber  { background: var(--color-fmt-png); }
+  .stripe-green  { background: var(--color-fmt-raster); }
+  .stripe-ink    { background: var(--color-ink-brand); }
+
+  .card-body {
+    padding: 1.25rem 1.4rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .card-title {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-family: var(--font-mono);
+  }
+  .card-tagline {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .card-description {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card-meta {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .lang-badge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--color-canvas-soft);
+    color: var(--color-ink-muted);
+    border: 1px solid var(--color-line);
+  }
+  .status-badge {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+    border: 1px solid var(--color-fmt-raster);
+    color: var(--color-fmt-raster);
+  }
+  .status-in-build {
+    border-color: var(--color-fmt-png);
+    color: var(--color-fmt-png);
+  }
+  .card-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+  .link-primary, .link-secondary {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 6px;
+  }
+  .link-primary {
+    background: var(--color-ink);
+    color: var(--color-canvas);
+  }
+  .link-secondary {
+    background: var(--color-canvas-soft);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+  }
+  .link-secondary:hover {
+    border-color: var(--color-ink-muted);
+  }
+</style>

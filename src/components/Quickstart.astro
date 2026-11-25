@@ -1,0 +1,226 @@
+---
+/**
+ * Quickstart — install-and-run snippets for the flagship gems.
+ *
+ * Every snippet here is verified against the corresponding gem's README.
+ * Do not add a snippet that does not appear in (or follow directly from)
+ * the gem's documented interface.
+ */
+interface QuickstartEntry {
+  name: string;
+  role: string;
+  token: 'blue' | 'violet' | 'amber' | 'green';
+  blurb: string;
+  install: string;
+  lang: 'ruby' | 'sh';
+  snippet: string;
+  github: string;
+  rubygems: string;
+}
+
+const entries: QuickstartEntry[] = [
+  {
+    name: 'vectory',
+    role: 'Transformer',
+    token: 'violet',
+    blurb: 'Pairwise conversion across EPS, PS, EMF, and SVG — plus PNG out.',
+    install: 'gem install vectory',
+    lang: 'sh',
+    snippet: '$ vectory -f svg diagram.emf\n\n# or from Ruby:\nVectory::Emf.from_path("diagram.emf").to_svg.content',
+    github: 'https://github.com/claricle/vectory',
+    rubygems: 'https://rubygems.org/gems/vectory',
+  },
+  {
+    name: 'emfsvg',
+    role: 'Transformer',
+    token: 'violet',
+    blurb: 'EMF ↔ SVG in both directions — clean-room, corpus-locked.',
+    install: 'gem install emfsvg',
+    lang: 'ruby',
+    snippet:
+      'require "emfsvg"\n\nsvg = Emfsvg.from_file("image.emf")         # EMF → SVG\nemf = Emfsvg.from_svg_file("drawing.svg")   # SVG → EMF',
+    github: 'https://github.com/claricle/emfsvg',
+    rubygems: 'https://rubygems.org/gems/emfsvg',
+  },
+  {
+    name: 'emf',
+    role: 'Model',
+    token: 'blue',
+    blurb: 'Parse WMF/EMF/EMF+ records into a typed, serializable model.',
+    install: 'gem install emf',
+    lang: 'ruby',
+    snippet:
+      'require "emf"\n\nmetafile = Emf.parse_file("image.emf")\nmetafile.format         # => :emf or :emf_plus\nmetafile.records.length # => 3538',
+    github: 'https://github.com/claricle/emf',
+    rubygems: 'https://rubygems.org/gems/emf',
+  },
+  {
+    name: 'postsvg',
+    role: 'Transformer',
+    token: 'violet',
+    blurb: 'PS/EPS ↔ SVG in pure Ruby — no Ghostscript, no Inkscape.',
+    install: 'gem install postsvg',
+    lang: 'ruby',
+    snippet: 'require "postsvg"\n\n# Convert and save in one step\nPostsvg.to_svg_file("input.eps", "output.svg")',
+    github: 'https://github.com/claricle/postsvg',
+    rubygems: 'https://rubygems.org/gems/postsvg',
+  },
+  {
+    name: 'svg_conform',
+    role: 'Lens',
+    token: 'amber',
+    blurb: 'Gate SVG against a conformance profile, then remediate.',
+    install: 'gem install svg_conform',
+    lang: 'sh',
+    snippet: '$ svg_conform check file.svg --profile=metanorma',
+    github: 'https://github.com/claricle/svg_conform',
+    rubygems: 'https://rubygems.org/gems/svg_conform',
+  },
+  {
+    name: 'png_conform',
+    role: 'Lens',
+    token: 'amber',
+    blurb: 'Validate PNG chunks, CRCs, and ordering — pngcheck-compatible.',
+    install: 'gem install png_conform',
+    lang: 'sh',
+    snippet: '$ png_conform check image.png\n✅ OK: image.png (800x600, 8-bit/color RGB, non-interlaced)',
+    github: 'https://github.com/claricle/png_conform',
+    rubygems: 'https://rubygems.org/gems/png_conform',
+  },
+];
+---
+
+<section class="quickstart" id="quickstart">
+  <header class="qs-head">
+    <p class="eyebrow">Quickstart</p>
+    <h2>Six gems, running in minutes</h2>
+    <p class="qs-lede">Each snippet is straight from the gem's own documentation.</p>
+  </header>
+  <div class="qs-grid">
+    {entries.map((entry) => (
+      <article class:list={['qs-card', `qs-${entry.token}`]}>
+        <header class="qs-card-head">
+          <h3>{entry.name}</h3>
+          <span class="qs-role">{entry.role}</span>
+        </header>
+        <p class="qs-blurb">{entry.blurb}</p>
+        <pre class="qs-install"><code>{entry.install}</code></pre>
+        <pre class="qs-snippet"><code class:list={[`lang-${entry.lang}`]}>{entry.snippet}</code></pre>
+        <footer class="qs-links">
+          <a href={entry.github} target="_blank" rel="noopener">GitHub</a>
+          <a href={entry.rubygems} target="_blank" rel="noopener">RubyGems</a>
+        </footer>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .quickstart {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 2rem;
+  }
+  .qs-head {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .qs-head h2 {
+    margin: 0.5rem 0;
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    letter-spacing: -0.015em;
+  }
+  .qs-lede {
+    color: var(--color-ink-muted);
+    margin: 0;
+    font-size: 1.02rem;
+  }
+  .qs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+  .qs-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    padding: 1.25rem 1.4rem;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .qs-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  .qs-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  .qs-card-head h3 {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .qs-role {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-weight: 500;
+    white-space: nowrap;
+    border: 1px solid currentColor;
+  }
+  .qs-blue  .qs-role { color: var(--color-fmt-emf); }
+  .qs-violet .qs-role { color: var(--color-fmt-svg); }
+  .qs-amber .qs-role { color: var(--color-fmt-png); }
+  .qs-green .qs-role { color: var(--color-fmt-raster); }
+  .qs-blurb {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .qs-install {
+    margin: 0;
+    background: var(--color-ink-brand);
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.82rem;
+    overflow-x: auto;
+  }
+  .qs-install code {
+    font-family: var(--font-mono);
+  }
+  .qs-snippet {
+    margin: 0;
+    background: var(--color-canvas-soft);
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+  .qs-snippet code {
+    font-family: var(--font-mono);
+  }
+  .qs-links {
+    display: flex;
+    gap: 1.1rem;
+    font-size: 0.85rem;
+  }
+  .qs-links a {
+    color: var(--color-ink-muted);
+    border-bottom: 1px solid transparent;
+  }
+  .qs-links a:hover {
+    color: var(--color-ink);
+    border-bottom-color: var(--color-ink-muted);
+  }
+</style>
