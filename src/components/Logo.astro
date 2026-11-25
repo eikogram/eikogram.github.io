@@ -1,0 +1,50 @@
+---
+/**
+ * Logo — a plotted bezier with square anchor handles: the eikogram mark.
+ * The path is the drawing; the anchors are the model underneath it.
+ */
+interface Props {
+  size?: number;
+}
+const { size = 32 } = Astro.props;
+---
+
+<svg
+  class="brand-logo"
+  width={size}
+  height={size}
+  viewBox="0 0 64 64"
+  role="img"
+  aria-label="eikogram logo"
+>
+  <rect x="2" y="2" width="60" height="60" rx="14" class="logo-plate"></rect>
+  <path
+    class="logo-path"
+    d="M 14 44 C 22 30, 34 48, 42 32 C 46 24, 50 26, 52 20"
+  ></path>
+  <rect class="logo-anchor" x="11" y="41" width="6" height="6" transform="rotate(45 14 44)"></rect>
+  <rect class="logo-anchor logo-anchor-alt" x="39" y="29" width="6" height="6" transform="rotate(45 42 32)"></rect>
+  <rect class="logo-anchor" x="49" y="17" width="6" height="6" transform="rotate(45 52 20)"></rect>
+</svg>
+
+<style>
+  .brand-logo {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .logo-plate {
+    fill: var(--color-ink-brand);
+  }
+  .logo-path {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .logo-anchor {
+    fill: #ffffff;
+  }
+  .logo-anchor-alt {
+    fill: #f7bc68;
+  }
+</style>

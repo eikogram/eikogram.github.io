@@ -1,0 +1,97 @@
+---
+import Logo from './Logo.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-pen-line" aria-hidden="true"></div>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <Logo size={26} />
+      <span>eikogram</span>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/projects/">Projects</a>
+      <a href="/#model-flow">Model flow</a>
+      <a href="/#quickstart">Quickstart</a>
+      <a href="https://github.com/eikogram" rel="noopener" target="_blank">eikogram on GitHub</a>
+      <a href="https://github.com/claricle" rel="noopener" target="_blank">claricle suite</a>
+    </nav>
+    <p class="footer-meta">
+      The internal vector image model &mdash; one model per format, transformers
+      between models. The gems live in the
+      <a href="https://github.com/claricle" rel="noopener" target="_blank">claricle</a>
+      organization.
+      <br />
+      &copy; {year} Ribose Inc.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 6rem;
+    border-top: 1px solid var(--color-line);
+    background: var(--color-canvas-soft);
+  }
+  .footer-pen-line {
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(
+      to right,
+      var(--color-ink-brand),
+      var(--color-fmt-svg),
+      var(--color-fmt-emf),
+      var(--color-fmt-raster),
+      var(--color-fmt-png)
+    );
+    opacity: 0.55;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 2rem;
+  }
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 650;
+  }
+  .footer-links {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    font-size: 0.92rem;
+    justify-content: end;
+  }
+  .footer-links a {
+    color: var(--color-ink-muted);
+  }
+  .footer-links a:hover {
+    color: var(--color-ink);
+  }
+  .footer-meta {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .footer-meta a {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+  @media (max-width: 720px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+    }
+    .footer-links {
+      justify-content: start;
+    }
+  }
+</style>

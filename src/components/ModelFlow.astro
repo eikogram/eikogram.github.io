@@ -1,0 +1,321 @@
+---
+/**
+ * ModelFlow — the signature element.
+ *
+ * The eikogram architecture as a diagram: the Vector Image Model (VIM) sits
+ * at the hub; the per-format models (EMF, SVG, PNG/DIB) hang off it as peers,
+ * each connected by a transformer. SVG is deliberately NOT the center — it is
+ * one serialization among several. Rasterization runs as an orthogonal trace
+ * from the PNG/DIB model down to the pixel surface. Connector dashes march
+ * under animation, disabled for prefers-reduced-motion.
+ */
+---
+
+<section class="model-flow" id="model-flow">
+  <header class="flow-head">
+    <p class="eyebrow">The model flow</p>
+    <h2>VIM at the hub, formats as peers</h2>
+    <p class="flow-lede">
+      One model per format. Transformers convert strictly between models &mdash;
+      so every supported format stays fully translatable, and no format is
+      privileged.
+    </p>
+  </header>
+
+  <figure class="flow-figure">
+    <svg
+      class="flow-svg"
+      viewBox="0 0 920 470"
+      role="img"
+      aria-labelledby="flow-title flow-desc"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <title id="flow-title">The eikogram model flow</title>
+      <desc id="flow-desc">
+        The Vector Image Model sits at the center. The EMF model, the SVG
+        model, and the PNG/DIB model each connect to it bidirectionally through
+        transformers. From the PNG/DIB model, a rasterization trace leads to
+        the pixel surface, where the drawing becomes pixels.
+      </desc>
+
+      <defs>
+        <pattern id="flow-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" class="grid-dot"></circle>
+        </pattern>
+        <marker id="head-emf" viewBox="0 0 10 10" refX="9" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" class="head head-emf"></path>
+        </marker>
+        <marker id="head-svg" viewBox="0 0 10 10" refX="9" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" class="head head-svg"></path>
+        </marker>
+        <marker id="head-png" viewBox="0 0 10 10" refX="9" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" class="head head-png"></path>
+        </marker>
+        <marker id="head-raster" viewBox="0 0 10 10" refX="9" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" class="head head-raster"></path>
+        </marker>
+      </defs>
+
+      <rect class="flow-canvas" x="0" y="0" width="920" height="470" rx="18"></rect>
+      <rect class="flow-grid-layer" x="0" y="0" width="920" height="470" rx="18" fill="url(#flow-grid)"></rect>
+
+      <!-- transformer wires: neutral base + colored marching-dash overlay -->
+      <g class="connectors">
+        <path class="wire" d="M 224 112 C 294 112, 324 150, 364 186"
+          marker-start="url(#head-emf)" marker-end="url(#head-emf)"></path>
+        <path class="wire-flow wire-flow-emf" d="M 224 112 C 294 112, 324 150, 364 186"></path>
+
+        <path class="wire" d="M 696 112 C 626 112, 596 150, 556 186"
+          marker-start="url(#head-svg)" marker-end="url(#head-svg)"></path>
+        <path class="wire-flow wire-flow-svg" d="M 696 112 C 626 112, 596 150, 556 186"></path>
+
+        <path class="wire" d="M 224 358 C 300 358, 320 286, 366 248"
+          marker-start="url(#head-png)" marker-end="url(#head-png)"></path>
+        <path class="wire-flow wire-flow-png" d="M 224 358 C 300 358, 320 286, 366 248"></path>
+
+        <!-- rasterization: an orthogonal trace down to the pixel surface -->
+        <path class="wire wire-raster" d="M 140 406 L 140 436 Q 140 444 148 444 L 772 444 Q 780 444 780 436 L 780 406"
+          marker-end="url(#head-raster)"></path>
+        <path class="wire-flow wire-flow-raster" d="M 140 406 L 140 436 Q 140 444 148 444 L 772 444 Q 780 444 780 436 L 780 406"></path>
+      </g>
+
+      <!-- transformer labels -->
+      <g class="wire-labels">
+        <text class="wire-label label-emf" x="290" y="132">transformer</text>
+        <text class="wire-label label-svg" x="632" y="132">transformer</text>
+        <text class="wire-label label-png" x="268" y="322">transformer</text>
+        <text class="wire-label label-raster" x="460" y="436">rasterization</text>
+      </g>
+
+      <!-- EMF model node -->
+      <g class="node node-emf">
+        <rect x="60" y="70" width="160" height="84" rx="12"></rect>
+        <text class="node-title" x="140" y="106">EMF</text>
+        <text class="node-sub" x="140" y="126">metafile model</text>
+        <g class="node-glyph">
+          <line x1="104" y1="138" x2="132" y2="138"></line>
+          <line x1="140" y1="138" x2="168" y2="138"></line>
+          <line x1="112" y1="145" x2="152" y2="145"></line>
+        </g>
+      </g>
+
+      <!-- SVG model node -->
+      <g class="node node-svg">
+        <rect x="700" y="70" width="160" height="84" rx="12"></rect>
+        <text class="node-title" x="780" y="104">SVG</text>
+        <text class="node-sub" x="780" y="123">one serialization</text>
+        <text class="node-sub" x="780" y="137">among several</text>
+      </g>
+
+      <!-- PNG/DIB model node -->
+      <g class="node node-png">
+        <rect x="60" y="320" width="160" height="84" rx="12"></rect>
+        <text class="node-title" x="140" y="354">PNG / DIB</text>
+        <text class="node-sub" x="140" y="374">raster model</text>
+        <g class="node-glyph">
+          <line x1="104" y1="386" x2="168" y2="386"></line>
+          <line x1="112" y1="393" x2="160" y2="393"></line>
+        </g>
+      </g>
+
+      <!-- Pixel surface node -->
+      <g class="node node-raster">
+        <rect x="700" y="320" width="160" height="84" rx="12"></rect>
+        <text class="node-title" x="780" y="354">Pixel surface</text>
+        <text class="node-sub" x="780" y="374">the drawn result</text>
+        <g class="pixel-glyph">
+          <rect x="746" y="384" width="7" height="7"></rect>
+          <rect x="757" y="384" width="7" height="7"></rect>
+          <rect x="768" y="384" width="7" height="7"></rect>
+          <rect x="779" y="384" width="7" height="7"></rect>
+          <rect x="746" y="395" width="7" height="7"></rect>
+          <rect x="757" y="395" width="7" height="7"></rect>
+        </g>
+      </g>
+
+      <!-- VIM hub -->
+      <g class="node node-hub">
+        <rect x="368" y="150" width="184" height="132" rx="16"></rect>
+        <text class="hub-title" x="460" y="200">VIM</text>
+        <text class="node-sub" x="460" y="222">the vector image model</text>
+        <path class="motif-path" d="M 398 256 C 414 242, 430 268, 446 256 C 460 246, 472 262, 488 254"></path>
+        <rect class="motif-anchor" x="394.5" y="252.5" width="7" height="7" transform="rotate(45 398 256)"></rect>
+        <rect class="motif-anchor motif-anchor-alt" x="442.5" y="252.5" width="7" height="7" transform="rotate(45 446 256)"></rect>
+        <rect class="motif-anchor" x="484.5" y="250.5" width="7" height="7" transform="rotate(45 488 254)"></rect>
+      </g>
+    </svg>
+    <figcaption class="flow-caption">
+      Transformers run <strong>strictly between models</strong> &mdash;
+      <code>emfsvg</code> between the EMF and SVG models, <code>postsvg</code>
+      between the PostScript and SVG models, <code>vectory</code> chaining the
+      pair &mdash; never bytes to bytes. Rasterization
+      (<code>svgpng</code>) projects the drawing onto the pixel surface, and
+      the lenses check every model against the standard it claims.
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .model-flow {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 1rem;
+  }
+  .flow-head {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .flow-head h2 {
+    margin: 0.5rem 0;
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    letter-spacing: -0.015em;
+  }
+  .flow-lede {
+    color: var(--color-ink-muted);
+    max-width: 620px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+  .flow-figure {
+    margin: 0;
+  }
+  .flow-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .flow-canvas {
+    fill: var(--color-canvas-soft);
+  }
+  .grid-dot {
+    fill: var(--color-ink);
+    opacity: 0.08;
+  }
+  .flow-grid-layer {
+    fill: url(#flow-grid);
+  }
+
+  .wire {
+    fill: none;
+    stroke: var(--color-line);
+    stroke-width: 2;
+  }
+  .wire-raster {
+    stroke: color-mix(in srgb, var(--color-fmt-raster) 35%, var(--color-line));
+  }
+  .wire-flow {
+    fill: none;
+    stroke-width: 2;
+    stroke-dasharray: 6 10;
+    stroke-linecap: round;
+    animation: flow-march 1.3s linear infinite;
+  }
+  .wire-flow-emf    { stroke: var(--color-fmt-emf); }
+  .wire-flow-svg    { stroke: var(--color-fmt-svg); }
+  .wire-flow-png    { stroke: var(--color-fmt-png); }
+  .wire-flow-raster { stroke: var(--color-fmt-raster); }
+
+  .head-emf    { fill: var(--color-fmt-emf); }
+  .head-svg    { fill: var(--color-fmt-svg); }
+  .head-png    { fill: var(--color-fmt-png); }
+  .head-raster { fill: var(--color-fmt-raster); }
+
+  @keyframes flow-march {
+    to { stroke-dashoffset: -32; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wire-flow { animation: none; }
+  }
+
+  .wire-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-anchor: middle;
+    fill: var(--color-ink-muted);
+    paint-order: stroke;
+    stroke: var(--color-canvas-soft);
+    stroke-width: 5;
+    stroke-linejoin: round;
+  }
+  .label-raster { fill: var(--color-fmt-raster); }
+
+  .node rect:first-child {
+    fill: var(--color-canvas);
+    stroke: var(--color-line);
+    stroke-width: 1.5;
+  }
+  .node-emf rect:first-child    { stroke: var(--color-fmt-emf); }
+  .node-svg rect:first-child    { stroke: var(--color-fmt-svg); }
+  .node-png rect:first-child    { stroke: var(--color-fmt-png); }
+  .node-raster rect:first-child { stroke: var(--color-fmt-raster); }
+  .node-hub rect:first-child {
+    stroke: var(--color-ink-brand);
+    stroke-width: 2;
+  }
+
+  .node-title,
+  .hub-title,
+  .node-sub {
+    font-family: var(--font-sans);
+    text-anchor: middle;
+  }
+  .node-title {
+    font-size: 15px;
+    font-weight: 600;
+    fill: var(--color-ink);
+  }
+  .hub-title {
+    font-size: 26px;
+    font-weight: 750;
+    fill: var(--color-ink-brand);
+    letter-spacing: 0.04em;
+  }
+  .node-sub {
+    font-size: 11.5px;
+    fill: var(--color-ink-muted);
+  }
+
+  .node-glyph line {
+    stroke: var(--color-line);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .pixel-glyph rect {
+    fill: color-mix(in srgb, var(--color-fmt-raster) 55%, transparent);
+  }
+
+  .motif-path {
+    fill: none;
+    stroke: var(--color-ink-brand);
+    stroke-width: 1.5;
+  }
+  .motif-anchor {
+    fill: var(--color-ink-brand);
+  }
+  .motif-anchor-alt {
+    fill: var(--color-fmt-png);
+  }
+
+  .flow-caption {
+    margin: 0.9rem auto 0;
+    max-width: 640px;
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--color-ink-muted);
+    line-height: 1.55;
+  }
+  .flow-caption code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    padding: 0.05rem 0.3rem;
+  }
+</style>

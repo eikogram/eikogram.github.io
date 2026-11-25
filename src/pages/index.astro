@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ModelFlow from '../components/ModelFlow.astro';
+import Quickstart from '../components/Quickstart.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import { PROJECTS } from '../data/projects';
+
+const featured = PROJECTS.filter((p) => p.featured);
+---
+
+<BaseLayout>
+  <Hero />
+
+  <section class="container" aria-label="The model flow">
+    <ModelFlow />
+  </section>
+
+  <section class="container thesis" aria-label="The thesis in three rules">
+    <div class="rule">
+      <span class="rule-num">01</span>
+      <h3>One model per format</h3>
+      <p>
+        EMF, SVG, PNG/DIB — each format gets a typed, walkable, serializable
+        model. No format is read as opaque bytes.
+      </p>
+    </div>
+    <div class="rule">
+      <span class="rule-num">02</span>
+      <h3>Transformers between models</h3>
+      <p>
+        Conversion is a transformer from one model to another — strictly
+        model to model, so geometry survives the trip.
+      </p>
+    </div>
+    <div class="rule">
+      <span class="rule-num">03</span>
+      <h3>SVG is one serialization</h3>
+      <p>
+        Not the hub, not the truth — one serialization among several. The
+        drawing lives in the model; formats are projections of it.
+      </p>
+    </div>
+  </section>
+
+  <section class="container" id="projects">
+    <header class="section-head">
+      <p class="eyebrow">The stack</p>
+      <h2>Gems, grouped by role</h2>
+      <p class="lede">
+        The claricle-stack gems behind the program &mdash; models, transformers,
+        lenses, rasterization, and the Rust engines now in build-out. The full
+        grid with role filtering lives under
+        <a href="/projects/">projects</a>.
+      </p>
+    </header>
+    <ProjectGrid projects={featured} />
+    <p class="more-link">
+      <a href="/projects/">See all projects &rarr;</a>
+    </p>
+  </section>
+
+  <section class="container">
+    <Quickstart />
+  </section>
+
+  <section class="container cta-band">
+    <div class="cta-pen" aria-hidden="true"></div>
+    <div class="cta-content">
+      <h2>The engines are being built</h2>
+      <p>
+        <code>emf-rs</code> already parses EMF/EMF+; <code>vectory-rs</code>
+        carries the SVG model, the eikogram VIM, and the transformers. Follow
+        the work in the org.
+      </p>
+      <div class="cta-actions">
+        <a class="cta-primary" href="https://github.com/eikogram" target="_blank" rel="noopener">eikogram on GitHub</a>
+        <a class="cta-secondary" href="/projects/">Browse the gems</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .thesis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 3.5rem;
+  }
+  .rule {
+    background: var(--color-canvas-soft);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    padding: 1.4rem 1.5rem;
+  }
+  .rule-num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-ink-brand);
+    letter-spacing: 0.08em;
+  }
+  .rule h3 {
+    margin: 0.5rem 0 0.4rem;
+    font-size: 1.12rem;
+    letter-spacing: -0.01em;
+  }
+  .rule p {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .section-head {
+    text-align: center;
+    margin: 4.5rem 0 2rem;
+  }
+  .section-head h2 {
+    margin: 0.5rem 0;
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    letter-spacing: -0.015em;
+  }
+  .lede {
+    color: var(--color-ink-muted);
+    max-width: 620px;
+    margin: 0 auto;
+    font-size: 1.02rem;
+    line-height: 1.55;
+  }
+  .lede a {
+    color: var(--color-ink-brand);
+    font-weight: 550;
+  }
+  .lede a:hover {
+    text-decoration: underline;
+  }
+  .more-link {
+    text-align: center;
+    margin: 1.75rem 0 0;
+  }
+  .more-link a {
+    color: var(--color-ink);
+    font-weight: 550;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+  .more-link a:hover {
+    background: var(--color-canvas-soft);
+  }
+  .cta-band {
+    margin-top: 5rem;
+    padding: 4rem 1.5rem;
+    border-radius: 20px;
+    background: var(--color-canvas-soft);
+    border: 1px solid var(--color-line);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-pen {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--color-ink-brand) 12%, transparent),
+      color-mix(in srgb, var(--color-fmt-svg) 10%, transparent),
+      color-mix(in srgb, var(--color-fmt-emf) 10%, transparent),
+      transparent 70%
+    );
+    z-index: 0;
+  }
+  .cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .cta-content h2 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    letter-spacing: -0.015em;
+  }
+  .cta-content p {
+    margin: 0 0 1.5rem;
+    color: var(--color-ink-muted);
+    line-height: 1.55;
+  }
+  .cta-content code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--color-canvas);
+    padding: 0.12rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-line);
+  }
+  .cta-actions {
+    display: inline-flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cta-primary, .cta-secondary {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .cta-primary {
+    background: var(--color-ink-brand);
+    color: #ffffff;
+  }
+  .cta-primary:hover { transform: translateY(-1px); }
+  .cta-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+  }
+  .cta-secondary:hover { background: var(--color-canvas); }
+</style>

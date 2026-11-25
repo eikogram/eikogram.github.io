@@ -1,0 +1,86 @@
+---
+/**
+ * ProjectGrid — the gems grouped by their role in the model flow:
+ * models, transformers, lenses, rasterization, engines.
+ */
+import { presentRoles, byRole, type Project } from '../data/projects';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  projects: Project[];
+}
+const { projects } = Astro.props;
+
+const groups = presentRoles()
+  .map(({ role, meta }) => ({
+    role,
+    meta,
+    items: projects.filter((p) => p.role === role),
+  }))
+  .filter((group) => group.items.length > 0);
+---
+
+<div class="role-groups">
+  {groups.map(({ role, meta, items }) => (
+    <section class="role-section" aria-labelledby={`role-${role}`}>
+      <header class="role-head">
+        <h2 id={`role-${role}`}>
+          <span class:list={['role-dot', `dot-${meta.token}`]} aria-hidden="true"></span>
+          {meta.label}
+        </h2>
+        <p>{meta.description}</p>
+      </header>
+      <div class="role-grid">
+        {byRole(role).filter((p) => items.includes(p)).map((p) => (
+          <ProjectCard project={p} />
+        ))}
+      </div>
+    </section>
+  ))}
+</div>
+
+<style>
+  .role-section {
+    margin: 0 0 2.75rem;
+  }
+  .role-head {
+    margin: 0 0 1rem;
+  }
+  .role-head h2 {
+    margin: 0 0 0.3rem;
+    font-size: 1.4rem;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .role-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    transform: rotate(45deg);
+    display: inline-block;
+  }
+  .dot-blue   { background: var(--color-fmt-emf); }
+  .dot-violet { background: var(--color-fmt-svg); }
+  .dot-amber  { background: var(--color-fmt-png); }
+  .dot-green  { background: var(--color-fmt-raster); }
+  .dot-ink    { background: var(--color-ink-brand); }
+  .role-head p {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 640px;
+  }
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+  @media (max-width: 640px) {
+    .role-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
